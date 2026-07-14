@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone 18 首發預購平台｜台灣授權經銷商專屬（Demo 原型）</title>
+<style>
+  :root{
+    --navy:#16283f;
+    --navy-2:#1f3a5c;
+    --blue:#2563a8;
+    --blue-light:#eaf1f8;
+    --gold:#b8860b;
+    --gold-bg:#fdf6e3;
+    --ink:#22303f;
+    --muted:#5c6b7a;
+    --line:#dde4ec;
+    --bg:#f5f7fa;
+    --white:#ffffff;
+    --green:#1d7a4f;
+    --green-bg:#e8f5ee;
+    --warn:#a05a00;
+    --warn-bg:#fff4e0;
+    --danger:#b3382c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+  section{padding:56px 0;}
+  h2{font-size:1.6rem;color:var(--navy);margin-bottom:8px;}
+  .sec-sub{color:var(--muted);margin-bottom:28px;font-size:.95rem;}
+
+  /* Demo banner */
+  .demo-banner{
+    background:#3d3d3d;color:#fff;text-align:center;
+    font-size:.8rem;padding:6px 12px;letter-spacing:.05em;
+  }
+
+  /* Header */
+  header.site{
+    background:var(--white);border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:50;
+  }
+  .site-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;max-width:1080px;margin:0 auto;
+  }
+  .brand{font-weight:700;color:var(--navy);font-size:1.05rem;}
+  .brand small{display:block;font-weight:400;color:var(--muted);font-size:.72rem;letter-spacing:.05em;}
+  nav.top a{
+    color:var(--muted);text-decoration:none;font-size:.88rem;margin-left:18px;
+  }
+  nav.top a:hover{color:var(--blue);}
+  @media(max-width:720px){ nav.top{display:none;} }
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 70%,#2a4a70 100%);
+    color:#fff;padding:72px 0 64px;
+  }
+  .hero h1{font-size:2.1rem;line-height:1.4;margin-bottom:18px;}
+  .hero .sub{
+    font-size:1.02rem;color:#cfdcec;max-width:720px;margin-bottom:26px;
+  }
+  .hero .fine{font-size:.82rem;color:#9db4cc;margin-top:16px;}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start;}
+  .cta{
+    display:inline-block;text-decoration:none;text-align:center;
+    padding:13px 26px;border-radius:6px;font-size:1rem;font-weight:700;
+    cursor:pointer;border:none;
+  }
+  .cta.primary{background:#f0b429;color:#20222a;}
+  .cta.primary:hover{background:#ffc94d;}
+  .cta.ghost{background:transparent;color:#fff;border:1px solid #6c86a5;font-weight:400;}
+  .cta.ghost:hover{border-color:#fff;}
+  .cta-note{font-size:.78rem;color:#9db4cc;margin-top:6px;text-align:center;}
+  @media(max-width:720px){
+    .hero h1{font-size:1.5rem;}
+    .cta-row{flex-direction:column;}
+    .cta{width:100%;}
+  }
+
+  /* Selling points */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  @media(max-width:720px){ .cards{grid-template-columns:1fr;} }
+  .card{
+    background:var(--white);border:1px solid var(--line);border-radius:8px;
+    padding:24px;box-shadow:0 1px 3px rgba(20,40,70,.05);
+  }
+  .card .icon{font-size:1.6rem;margin-bottom:10px;}
+  .card h3{font-size:1.08rem;color:var(--navy);margin-bottom:10px;line-height:1.5;}
+  .card p{font-size:.92rem;color:var(--muted);margin-bottom:8px;}
+  .card p:last-child{margin-bottom:0;}
+  .card strong{color:var(--ink);}
+
+  /* Order demo */
+  .order-demo{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .demo-tag{
+    display:inline-block;background:var(--warn-bg);color:var(--warn);
+    font-size:.75rem;padding:2px 10px;border-radius:99px;border:1px solid #e8cf9a;
+    margin-bottom:10px;font-weight:700;letter-spacing:.05em;
+  }
+  .panel{
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    box-shadow:0 2px 8px rgba(20,40,70,.06);background:var(--white);
+  }
+  .id-bar{
+    background:var(--navy);color:#fff;padding:14px 20px;
+    display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;font-size:.88rem;
+  }
+  .id-bar .who{font-weight:700;font-size:.98rem;}
+  .badge-gold{
+    background:var(--gold-bg);color:var(--gold);
+    border:1px solid #e3cd8d;border-radius:4px;padding:1px 8px;font-size:.78rem;font-weight:700;
+  }
+  .id-bar .meta{color:#b9c9db;}
+  .id-bar .meta b{color:#fff;font-weight:600;}
+
+  .panel-body{padding:20px;}
+  .fgroup{margin-bottom:22px;}
+  .fgroup>label{
+    display:block;font-weight:700;color:var(--navy);font-size:.92rem;margin-bottom:8px;
+  }
+  .hint{font-size:.78rem;color:var(--muted);}
+
+  .season-bar{
+    background:var(--blue-light);border:1px solid #c6d8ea;border-radius:6px;
+    padding:10px 14px;font-size:.86rem;color:var(--navy);margin-bottom:20px;
+    display:flex;flex-wrap:wrap;gap:6px 18px;
+  }
+  .season-bar b{color:var(--blue);}
+
+  .opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+  .opt{
+    border:1.5px solid var(--line);border-radius:8px;padding:12px 14px;
+    cursor:pointer;background:var(--white);text-align:left;font-size:.9rem;
+    font-family:inherit;transition:border-color .15s;position:relative;
+  }
+  .opt:hover{border-color:var(--blue);}
+  .opt.selected{border-color:var(--blue);background:var(--blue-light);}
+  .opt.disabled{opacity:.55;cursor:not-allowed;background:#f3f4f6;}
+  .opt .name{font-weight:700;color:var(--navy);display:block;}
+  .opt .tag{
+    display:inline-block;font-size:.72rem;border-radius:4px;padding:0 6px;margin-top:4px;
+  }
+  .tag.wave1{background:var(--green-bg);color:var(--green);border:1px solid #bfe0cd;}
+  .tag.wave2{background:#eef0f3;color:var(--muted);border:1px solid var(--line);}
+  .tag.risk{background:var(--warn-bg);color:var(--warn);border:1px solid #e8cf9a;}
+  .opt .quota-line{font-size:.76rem;color:var(--muted);margin-top:4px;display:block;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    border:1.5px solid var(--line);border-radius:99px;padding:6px 16px;
+    background:var(--white);cursor:pointer;font-size:.88rem;font-family:inherit;
+  }
+  .chip:hover{border-color:var(--blue);}
+  .chip.selected{border-color:var(--blue);background:var(--blue-light);color:var(--navy);font-weight:700;}
+
+  .qty-row{display:flex;align-items:center;gap:10px;}
+  .qty-row button{
+    width:38px;height:38px;border:1.5px solid var(--line);background:var(--white);
+    border-radius:6px;font-size:1.1rem;cursor:pointer;font-family:inherit;
+  }
+  .qty-row input{
+    width:90px;height:38px;text-align:center;font-size:1rem;
+    border:1.5px solid var(--line);border-radius:6px;font-family:inherit;
+  }
+  .qty-row .unit{color:var(--muted);font-size:.9rem;}
+
+  /* quota box */
+  .quota-box{
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:16px;
+  }
+  .quota-box .row1{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:.9rem;}
+  .quota-box .row1 b{color:var(--navy);}
+  .bar{
+    height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:10px 0 6px;
+  }
+  .bar .fill{height:100%;background:var(--blue);border-radius:99px;transition:width .3s;}
+  .bar .fill.warn{background:var(--warn);}
+  .quota-box .rule-link{font-size:.8rem;}
+  .quota-box a{color:var(--blue);}
+  .waitlist-note{
+    margin-top:10px;background:var(--warn-bg);border:1px solid #e8cf9a;color:var(--warn);
+    border-radius:6px;padding:8px 12px;font-size:.84rem;display:none;
+  }
+
+  /* delivery / payment */
+  .info-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){ .info-2col{grid-template-columns:1fr;} }
+  .info-box{
+    border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--bg);
+    font-size:.88rem;
+  }
+  .info-box h4{color:var(--navy);font-size:.92rem;margin-bottom:8px;}
+  .info-box ul{list-style:none;}
+  .info-box li{padding:3px 0;color:var(--muted);}
+  .info-box li b{color:var(--ink);font-weight:600;}
+  .batch-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+  .dot-1{background:var(--green);}
+  .dot-2{background:var(--blue);}
+
+  /* summary */
+  .summary{
+    background:var(--navy);color:#fff;border-radius:8px;padding:18px 20px;margin-top:22px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+  }
+  .summary .lines{font-size:.86rem;color:#b9c9db;}
+  .summary .total{font-size:1.3rem;font-weight:700;}
+  .summary .total small{font-size:.72rem;font-weight:400;color:#b9c9db;display:block;}
+  .summary button{
+    background:#f0b429;color:#20222a;border:none;border-radius:6px;
+    padding:12px 28px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  .summary button:hover{background:#ffc94d;}
+  .summary .btn-wrap{text-align:center;}
+  .summary .btn-note{font-size:.74rem;color:#b9c9db;margin-top:5px;}
+  @media(max-width:720px){
+    .summary{flex-direction:column;align-items:stretch;text-align:center;}
+    .summary button{width:100%;}
+  }
+  .confirm-msg{
+    display:none;margin-top:14px;background:var(--green-bg);border:1px solid #bfe0cd;
+    color:var(--green);border-radius:8px;padding:14px 16px;font-size:.9rem;
+  }
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media(max-width:860px){ .steps{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:520px){ .steps{grid-template-columns:1fr;} }
+  .step{
+    background:var(--white);border:1px solid var(--line);border-radius:8px;padding:20px;
+  }
+  .step .num{
+    width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px;
+  }
+  .step h3{font-size:1rem;color:var(--navy);margin-bottom:6px;}
+  .step p{font-size:.86rem;color:var(--muted);}
+
+  /* trust */
+  .trust-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  @media(max-width:720px){ .trust-grid{grid-template-columns:1fr;} }
+  .trust{
+    background:var(--white);border:1px solid var(--line);border-left:4px solid var(--blue);
+    border-radius:6px;padding:18px 20px;
+  }
+  .trust h3{font-size:.98rem;color:var(--navy);margin-bottom:6px;}
+  .trust p{font-size:.88rem;color:var(--muted);}
+  .honest{
+    margin-top:20px;background:var(--gold-bg);border:1px solid #e3cd8d;border-radius:8px;
+    padding:16px 20px;font-size:.9rem;color:#6b5312;
+  }
+  .honest strong{color:#4d3c0c;}
+
+  /* FAQ */
+  .faq-item{
+    background:var(--white);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;
+    overflow:hidden;
+  }
+  .faq-item summary{
+    cursor:pointer;padding:14px 18px;font-weight:700;color:var(--navy);font-size:.94rem;
+    list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"＋";color:var(--blue);flex-shrink:0;}
+  .faq-item[open] summary::after{content:"－";}
+  .faq-item .a{padding:0 18px 14px;font-size:.9rem;color:var(--muted);}
+
+  /* final CTA */
+  .final-cta{
+    background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;text-align:center;
+  }
+  .final-cta h2{color:#fff;}
+  .final-cta p{color:#b9c9db;margin-bottom:22px;font-size:.95rem;}
+  .final-cta .cta-row{justify-content:center;}
+
+  /* footer */
+  footer.site{
+    background:#111c29;color:#8fa2b6;padding:32px 0;font-size:.8rem;
+  }
+  footer.site .wrap p{margin-bottom:6px;}
+  footer.site .legal{color:#657a90;margin-top:14px;border-top:1px solid #24344a;padding-top:14px;}
+</style>
+</head>
+<body>
+
+<div class="demo-banner">DEMO 原型｜本頁為內部展示用途，所有價格、配額、日期均為示意數字，非真實報價或供貨承諾</div>
+
+<header class="site">
+  <div class="site-inner">
+    <div class="brand">iPhone 18 首發預購平台<small>台灣授權經銷商專屬 B2B 批發下單</small></div>
+    <nav class="top">
+      <a href="#points">核心賣點</a>
+      <a href="#order">下單 Demo</a>
+      <a href="#flow">預購流程</a>
+      <a href="#trust">信任保障</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>iPhone 18 首發，你的配額，開賣前就知道。</h1>
+      <p class="sub">台灣授權經銷商專屬的新機預購下單平台。登入即見本檔期配額、預估到貨梯次與分配規則——把過去靠電話、人脈、猜測的首波拿貨，變成白紙黑字的透明作業。</p>
+      <div class="cta-row">
+        <div class="btn-wrap">
+          <a class="cta primary" href="#order">登入查看我的配額</a>
+          <div class="cta-note">開賣前，先知道自己能拿幾台</div>
+        </div>
+        <div class="btn-wrap">
+          <a class="cta ghost" href="#final">申請經銷帳號</a>
+          <div class="cta-note">限台灣授權經銷商，審核通過即可查看配額</div>
+        </div>
+      </div>
+      <p class="fine">僅開放授權經銷商登入使用。授權貨源、正規電子發票、契約化預購規則。</p>
+    </div>
+  </section>
+
+  <!-- ===== Selling points ===== -->
+  <section id="points">
+    <div class="wrap">
+      <h2>核心賣點</h2>
+      <p class="sec-sub">配額看得見，客人的單才敢收。</p>
+      <div class="cards">
+        <article class="card">
+          <div class="icon">📊</div>
+          <h3>配額透明——開賣前，就知道你能分到幾台</h3>
+          <p>還記得去年新機檔期嗎？打十通電話問不到一個準數字，等到知道拿不到貨，客人已經跑去別家。</p>
+          <p>在這裡，登入就看到本檔期你的配額：哪些機型、哪些容量、各幾台，一目了然。分配規則（依歷史進貨量、信用額度等）事前公開、可查可稽核——不是口頭承諾，是看得到的數字。<strong>有數字，你才敢先收客人的單。</strong></p>
+        </article>
+        <article class="card">
+          <div class="icon">🚚</div>
+          <h3>到貨梯次看得到——客人問「什麼時候到」，你答得出來</h3>
+          <p>每筆預購訂單都標示到貨梯次（第一批／第二批）與預估日期區間，狀態一有變動，LINE 推播直接通知，不用坐在店裡等業務回電。</p>
+          <p>配額若已滿？超額數量自動轉入候補，<strong>候補順位透明顯示</strong>——拿不拿得到、排第幾、預計哪一梯，提早知道，你就能對客人講清楚，而不是一句「再等等」。</p>
+        </article>
+        <article class="card">
+          <div class="icon">🗓️</div>
+          <h3>多檔期預購——新機檔期分幾波，一個平台全部接得住</h3>
+          <p>市場傳聞 iPhone 18 世代可能分多波上市。不管實際檔期怎麼排，平台原生支援多檔期預購管理：每個檔期各自的預購起訖、SKU 配額、出貨區間，切換檔期就能下單。一波接一波的新機財，不漏接。</p>
+        </article>
+        <article class="card">
+          <div class="icon">🧾</div>
+          <h3>正規貨源、正規發票、一站對帳——生意做得安心</h3>
+          <p>授權體系內的貨，每筆訂單自動開立 B2B 電子發票並依規定期限上傳，進項稅額扣抵沒煩惱——不用再冒險吃批價比定價還高、連發票都拿不到的貨。</p>
+          <p>配額查詢、下單、訂單狀態、發票、對帳單，同一個入口搞定，跨檔期訂單一鍵匯出對帳。<strong>手機就能操作</strong>，站在店頭櫃檯就把單下了。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Order demo ===== -->
+  <section id="order" class="order-demo">
+    <div class="wrap">
+      <span class="demo-tag">DEMO・經銷商登入後畫面模擬</span>
+      <h2>預購下單介面</h2>
+      <p class="sec-sub">以下為經銷商登入後的下單畫面示意，所有數字均為示意，非真實報價。</p>
+
+      <div class="panel">
+        <!-- 經銷商身分列 -->
+        <div class="id-bar">
+          <span class="who">範例通訊行 王老闆</span>
+          <span class="badge-gold">經銷等級：金級</span>
+          <span class="meta">授權編號：<b>TW-DLR-00123</b>（示意）</span>
+          <span class="meta">信用額度：<b>總額 300 萬｜已用 96 萬｜可用 204 萬</b>（示意）</span>
+          <span class="meta">帳期條件：<b>訂金 30%・尾款月結 30 天</b>（依經銷商契約）</span>
+        </div>
+
+        <div class="panel-body">
+          <!-- 檔期 -->
+          <div class="season-bar">
+            <span>目前檔期：<b>檔期一（2026 秋・示意）</b></span>
+            <span>預購期間：<b>示意 09/10 – 09/17</b></span>
+            <span>預計出貨：<b>示意 09/19 起分梯出貨</b></span>
+          </div>
+
+          <!-- 機型 -->
+          <div class="fgroup">
+            <label>選擇機型</label>
+            <div class="opt-grid" id="modelGrid">
+              <button class="opt selected" data-model="iPhone 18 Pro" data-price="33500">
+                <span class="name">iPhone 18 Pro</span>
+                <span class="tag wave1">檔期一</span>
+                <span class="quota-line">批發示意價 NT$33,500／台</span>
+              </button>
+              <button class="opt" data-model="iPhone 18 Pro Max" data-price="38500">
+                <span class="name">iPhone 18 Pro Max</span>
+                <span class="tag wave1">檔期一</span>
+                <span class="quota-line">批發示意價 NT$38,500／台</span>
+              </button>
+              <button class="opt" data-model="iPhone 18 摺疊機型（傳聞）" data-price="59000">
+                <span class="name">iPhone 18 摺疊機型（傳聞）</span>
+                <span class="tag wave1">檔期一</span>
+                <span class="tag risk">首批供貨吃緊，建議分散容量下單</span>
+                <span class="quota-line">批發示意價 NT$59,000／台</span>
+              </button>
+              <button class="opt disabled" disabled>
+                <span class="name">iPhone 18（標準版）</span>
+                <span class="tag wave2">檔期二・後續開放</span>
+                <span class="quota-line">本檔期尚未開放預購</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 顏色 -->
+          <div class="fgroup">
+            <label>顏色</label>
+            <div class="chips" id="colorChips">
+              <button class="chip selected">深灰</button>
+              <button class="chip">銀白</button>
+              <button class="chip">深藍</button>
+            </div>
+          </div>
+
+          <!-- 容量 -->
+          <div class="fgroup">
+            <label>容量</label>
+            <div class="chips" id="capChips">
+              <button class="chip selected">256GB</button>
+              <button class="chip">512GB</button>
+              <button class="chip">1TB</button>
+            </div>
+          </div>
+
+          <!-- 數量 -->
+          <div class="fgroup">
+            <label>批量數量（台）</label>
+            <div class="qty-row">
+              <button type="button" id="qtyMinus" aria-label="減少">−</button>
+              <input type="number" id="qtyInput" value="5" min="1" max="99">
+              <button type="button" id="qtyPlus" aria-label="增加">＋</button>
+              <span class="unit">台（超過剩餘配額之數量自動轉入候補）</span>
+            </div>
+          </div>
+
+          <!-- 配額 -->
+          <div class="fgroup">
+            <label>本檔期配額</label>
+            <div class="quota-box">
+              <div class="row1">
+                <span>本檔期可預購配額：<b>40 台</b>，已用 <b>12 台</b></span>
+                <span>剩餘 <b id="quotaLeft">28</b> 台</span>
+              </div>
+              <div class="bar"><div class="fill" id="quotaFill" style="width:30%"></div></div>
+              <div class="rule-link">分配規則（依歷史進貨量、信用額度等）事前公開、可查可稽核 → <a href="#faq">查看分配規則說明</a></div>
+              <div class="waitlist-note" id="waitlistNote"></div>
+            </div>
+          </div>
+
+          <!-- 到貨梯次 / 帳期 -->
+          <div class="info-2col">
+            <div class="info-box">
+              <h4>預估到貨梯次（示意）</h4>
+              <ul>
+                <li><span class="batch-dot dot-1"></span><b>第一批</b>：2026/09/19 – 09/26（示意區間）</li>
+                <li><span class="batch-dot dot-2"></span><b>第二批</b>：2026/10/03 – 10/17（示意區間）</li>
+                <li>狀態變更即時 LINE 推播通知。到貨預估依上游供貨滾動更新。</li>
+              </ul>
+            </div>
+            <div class="info-box">
+              <h4>付款條件與帳期（依經銷商契約）</h4>
+              <ul>
+                <li><b>付款方式</b>：訂金＋尾款（訂金 30%，示意）</li>
+                <li><b>帳期</b>：尾款月結 30 天（示意）</li>
+                <li><b>付款期限</b>：訂單成立後 3 個工作日內完成訂金（示意）</li>
+                <li>電子發票於訂單成立後自動開立。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 小計 -->
+          <div class="summary">
+            <div>
+              <div class="lines" id="sumLine">iPhone 18 Pro・深灰・256GB × 5 台</div>
+              <div class="total"><span id="sumTotal">NT$167,500</span><small>小計金額（示意價格，未含稅）</small></div>
+            </div>
+            <div class="btn-wrap">
+              <button type="button" id="submitBtn">送出預購單</button>
+              <div class="btn-note">配額有限，額滿自動轉候補</div>
+            </div>
+          </div>
+          <div class="confirm-msg" id="confirmMsg"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Flow ===== -->
+  <section id="flow">
+    <div class="wrap">
+      <h2>預購流程說明</h2>
+      <p class="sec-sub">四步驟，把首發貨源變成確定的生意：</p>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>登入查配額</h3>
+          <p>以授權經銷商帳號登入，首頁即見當前檔期你的配額：機型、容量、顏色、可下單台數，以及分配規則說明。</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>選機下單</h3>
+          <p>SKU 矩陣式勾選，輸入台數即完成預購。超過配額的數量自動轉入候補並顯示順位；供貨吃緊的型號會事前標示風險提示，方便你分散下單。</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>確認付款條件</h3>
+          <p>訂單成立時，訂金／尾款比例、付款期限、信用額度使用狀況清楚列示（依經銷商契約約定），電子發票自動開立。</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h3>追蹤到貨、安心交貨</h3>
+          <p>每筆訂單顯示預估到貨梯次與日期區間，狀態變更即時 LINE 推播。貨到、對帳、發票，一個入口收尾。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Trust ===== -->
+  <section id="trust" style="padding-top:0;">
+    <div class="wrap">
+      <h2>信任與保障</h2>
+      <p class="sec-sub">不靠交情，靠規則做生意。</p>
+      <div class="trust-grid">
+        <div class="trust">
+          <h3>授權貨源</h3>
+          <p>本平台僅流通 Apple 授權分銷體系內之貨源，僅開放通過審核的台灣授權經銷商登入交易。來路清楚，保固明白。</p>
+        </div>
+        <div class="trust">
+          <h3>正規電子發票</h3>
+          <p>每筆訂單自動開立 B2B 電子發票，並依財政部規定期限上傳整合服務平台。進項憑證齊全，帳務、稅務不留尾巴。</p>
+        </div>
+        <div class="trust">
+          <h3>契約化預購規則</h3>
+          <p>配額分配規則、候補機制、訂金與取消條款，全部白紙黑字寫進經銷商契約——遊戲規則事前公開，不因人而異、不靠交情喊價。</p>
+        </div>
+        <div class="trust">
+          <h3>透明對帳</h3>
+          <p>跨檔期訂單狀態（已確認／候補中／已出貨）隨時可查，對帳單一鍵匯出，月底對帳不用再翻 LINE 對話紀錄。</p>
+        </div>
+      </div>
+      <div class="honest">
+        誠實聲明：新機首發配額本質稀缺，本平台不承諾無限供貨。我們給你的是<strong>確定性</strong>——能分到幾台、排第幾順位、哪一梯到貨，提早知道、白紙黑字。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" style="padding-top:0;">
+    <div class="wrap">
+      <h2>常見問題 FAQ</h2>
+      <p class="sec-sub">別再打電話問貨了——登入就知道。</p>
+
+      <details class="faq-item" open>
+        <summary>Q1：配額是怎麼分的？憑什麼他分得比我多？</summary>
+        <div class="a">分配規則事前公開：依據歷史進貨量、信用額度等客觀條件計算，規則說明在平台上隨時可查、可稽核。不是誰跟業務交情好誰拿得多——同一套規則，套用在所有經銷商身上。</div>
+      </details>
+      <details class="faq-item">
+        <summary>Q2：什麼時候出貨？我可以跟客人承諾交期嗎？</summary>
+        <div class="a">每筆訂單成立後即顯示預估到貨梯次（第一批／第二批）與日期區間，狀態變更會即時 LINE 推播。到貨預估依上游供貨滾動更新，建議以平台顯示之區間對客承諾，並保留彈性。首發供貨吃緊的型號，我們會在下單前就標示風險提示，讓你先知道、先規劃。</div>
+      </details>
+      <details class="faq-item">
+        <summary>Q3：下單後可以改單或取消嗎？</summary>
+        <div class="a">可依經銷商契約約定之期限與條件辦理變更或取消（含訂金處理方式）。相關條款在簽約時白紙黑字載明，訂單頁也會顯示該筆訂單目前可否異動——規則事前講清楚，不會事後才翻臉。</div>
+      </details>
+      <details class="faq-item">
+        <summary>Q4：付款條件是什麼？有帳期嗎？</summary>
+        <div class="a">預購採訂金＋尾款模式，比例、付款期限與帳期條件依各經銷商契約與信用額度核定，登入後在「經銷商身分列」即可查看自己的額度（總額／已用／可用）與目前帳期條件。細節請洽平台業務窗口。</div>
+      </details>
+      <details class="faq-item">
+        <summary>Q5：配額滿了還想多拿，怎麼辦？</summary>
+        <div class="a">超過配額的數量可加入候補，系統即時顯示你的候補順位；一有釋出配額或追加供貨，依順位自動遞補並推播通知。拿不拿得到不再是黑箱——排第幾、機會多大，看得到。</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== Final CTA ===== -->
+  <section id="final" class="final-cta">
+    <div class="wrap">
+      <h2>iPhone 18 首發，你的配額，開賣前就知道。</h2>
+      <p>僅開放授權經銷商登入使用。授權貨源、正規電子發票、契約化預購規則。</p>
+      <div class="cta-row">
+        <div class="btn-wrap">
+          <a class="cta primary" href="#order">搶先卡位首檔期</a>
+          <div class="cta-note">首檔期種子經銷商享優先配額資格</div>
+        </div>
+        <div class="btn-wrap">
+          <a class="cta ghost" href="#order">申請經銷帳號</a>
+          <div class="cta-note">限台灣授權經銷商，審核通過即可查看配額</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>本平台僅流通 Apple 授權分銷體系內之貨源，僅開放通過審核的台灣授權經銷商登入交易。</p>
+    <p>每筆訂單自動開立 B2B 電子發票，並依財政部規定期限上傳整合服務平台。</p>
+    <p>配額分配規則、候補機制、訂金與取消條款，依經銷商契約約定辦理。</p>
+    <p class="legal">
+      合規備註：iPhone 18 之機型組合、發表時程均為市場傳聞，本頁一律以「新機檔期」「首發配額」等中性用語表述，不承諾供給量。新機首發配額本質稀缺，本平台不承諾無限供貨。
+      頁面所有價格、配額、日期均為示意數字，非真實報價。Apple、iPhone 為 Apple Inc. 之商標。
+      <br>DEMO 原型・僅供內部展示，非正式產品。
+    </p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var QUOTA_TOTAL = 40;
+  var QUOTA_USED = 12;
+  var QUOTA_LEFT = QUOTA_TOTAL - QUOTA_USED; // 28
+
+  var state = {
+    model: "iPhone 18 Pro",
+    price: 33500,
+    color: "深灰",
+    cap: "256GB",
+    qty: 5
+  };
+
+  var qtyInput = document.getElementById("qtyInput");
+  var sumLine = document.getElementById("sumLine");
+  var sumTotal = document.getElementById("sumTotal");
+  var quotaFill = document.getElementById("quotaFill");
+  var quotaLeftEl = document.getElementById("quotaLeft");
+  var waitlistNote = document.getElementById("waitlistNote");
+  var confirmMsg = document.getElementById("confirmMsg");
+
+  function fmt(n){ return "NT$" + n.toLocaleString("zh-Hant-TW"); }
+
+  function render(){
+    var confirmed = Math.min(state.qty, QUOTA_LEFT);
+    var wait = Math.max(0, state.qty - QUOTA_LEFT);
+
+    sumLine.textContent = state.model + "・" + state.color + "・" + state.cap + " × " + state.qty + " 台" +
+      (wait > 0 ? "（其中 " + wait + " 台將轉入候補）" : "");
+    sumTotal.textContent = fmt(state.price * state.qty);
+
+    var usedNow = QUOTA_USED + confirmed;
+    var pct = Math.min(100, Math.round(usedNow / QUOTA_TOTAL * 100));
+    quotaFill.style.width = pct + "%";
+    quotaFill.className = "fill" + (wait > 0 ? " warn" : "");
+    quotaLeftEl.textContent = Math.max(0, QUOTA_LEFT - state.qty);
+
+    if (wait > 0){
+      waitlistNote.style.display = "block";
+      waitlistNote.textContent = "超過剩餘配額 " + wait + " 台將自動轉入候補，目前候補順位：第 3 順位（示意）。順位透明，遞補即時通知。";
+    } else {
+      waitlistNote.style.display = "none";
+    }
+    confirmMsg.style.display = "none";
+  }
+
+  // model select
+  document.querySelectorAll("#modelGrid .opt").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if (btn.disabled) return;
+      document.querySelectorAll("#modelGrid .opt").forEach(function(b){ b.classList.remove("selected"); });
+      btn.classList.add("selected");
+      state.model = btn.getAttribute("data-model");
+      state.price = parseInt(btn.getAttribute("data-price"), 10);
+      render();
+    });
+  });
+
+  // chips
+  function bindChips(id, key){
+    document.querySelectorAll("#" + id + " .chip").forEach(function(chip){
+      chip.addEventListener("click", function(){
+        document.querySelectorAll("#" + id + " .chip").forEach(function(c){ c.classList.remove("selected"); });
+        chip.classList.add("selected");
+        state[key] = chip.textContent.trim();
+        render();
+      });
+    });
+  }
+  bindChips("colorChips", "color");
+  bindChips("capChips", "cap");
+
+  // qty
+  function setQty(v){
+    v = Math.max(1, Math.min(99, isNaN(v) ? 1 : v));
+    state.qty = v;
+    qtyInput.value = v;
+    render();
+  }
+  document.getElementById("qtyMinus").addEventListener("click", function(){ setQty(state.qty - 1); });
+  document.getElementById("qtyPlus").addEventListener("click", function(){ setQty(state.qty + 1); });
+  qtyInput.addEventListener("input", function(){ setQty(parseInt(qtyInput.value, 10)); });
+
+  // submit
+  document.getElementById("submitBtn").addEventListener("click", function(){
+    var confirmed = Math.min(state.qty, QUOTA_LEFT);
+    var wait = Math.max(0, state.qty - QUOTA_LEFT);
+    var msg = "✅ 預購單已送出（DEMO 示意，未實際成立訂單）：" +
+      state.model + "・" + state.color + "・" + state.cap + "，共 " + state.qty + " 台" +
+      "（已確認 " + confirmed + " 台" + (wait > 0 ? "、候補 " + wait + " 台" : "") + "）。" +
+      "小計 " + fmt(state.price * state.qty) + "（示意價格）。" +
+      "電子發票將於訂單成立後自動開立；到貨梯次狀態變更將以 LINE 推播通知。";
+    confirmMsg.textContent = msg;
+    confirmMsg.style.display = "block";
+    confirmMsg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
