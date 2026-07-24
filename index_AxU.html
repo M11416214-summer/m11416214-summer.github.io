@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="指定 ASUS 新世代 AI 筆電登錄抽獎活動原型。">
+  <title>選對新機，好禮一路升級｜活動原型</title>
+  <!--
+    DEMO LIMITATIONS
+    1. This is a single-file visual prototype; no data is transmitted, stored, or submitted.
+    2. Model eligibility uses local demo data only and is not an approved SKU list.
+    3. Prize models, values, organizer identity, support details, and final draw date remain unapproved.
+    4. The internal project codename is intentionally excluded from consumer-facing content.
+    5. Product silhouettes and the A × U wordmark are generic prototype graphics, not authorized brand assets.
+    6. Countdown uses the visitor's device clock and Asia/Taipei campaign boundaries.
+  -->
+  <style>
+    :root{
+      --navy:#061d43;--navy-2:#03122c;--blue:#0757d8;--cyan:#32c4ee;--red:#f45155;
+      --ink:#0a1935;--muted:#52617a;--line:#dce5f2;--soft:#f3f7fc;--white:#fff;
+      --ok:#087a5b;--warn:#8a5b00;--r:16px;--shadow:0 18px 55px rgba(6,29,67,.13);
+      --max:1180px;--focus:0 0 0 4px rgba(50,196,238,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.65}
+    body.modal-open{overflow:hidden}
+    a{color:inherit} button,input{font:inherit}
+    button,a,input,summary{outline-offset:3px}
+    button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--cyan);box-shadow:var(--focus)}
+    .skip{position:fixed;left:16px;top:-80px;z-index:1000;background:#fff;padding:10px 16px;border-radius:8px}
+    .skip:focus{top:12px}
+    .container{width:min(calc(100% - 40px),var(--max));margin:auto}
+    .site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(10,25,53,.1)}
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .mark{font-size:24px;letter-spacing:.12em;text-decoration:none;font-weight:800;white-space:nowrap}
+    .mark small{display:block;font-size:9px;letter-spacing:.18em;color:var(--muted);font-weight:700}
+    .nav-links{display:flex;align-items:center;gap:28px;font-size:14px;font-weight:700}
+    .nav-links a{text-decoration:none}.nav-links a:hover{color:var(--blue)}
+    .button{border:0;border-radius:10px;min-height:46px;padding:11px 22px;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;cursor:pointer;transition:.2s ease}
+    .button:hover{transform:translateY(-2px)}
+    .button.primary{background:var(--blue);color:#fff;box-shadow:0 10px 24px rgba(7,87,216,.22)}
+    .button.secondary{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+    .button.coral{background:var(--red);color:#fff}.button.ghost{background:transparent;color:inherit;border:1px solid currentColor}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#fff 0 57%,#e7f2ff 57% 100%);min-height:610px;display:grid;align-items:center}
+    .hero:after{content:"";position:absolute;right:-8%;bottom:-24%;width:52%;height:84%;background:linear-gradient(140deg,transparent 25%,rgba(7,87,216,.16) 25% 40%,transparent 40% 48%,rgba(50,196,238,.22) 48% 54%,transparent 54%);transform:skewX(-10deg);pointer-events:none}
+    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:70px;padding:84px 0 96px;position:relative;z-index:1}
+    h1{font-size:clamp(44px,5vw,72px);line-height:1.08;letter-spacing:-.055em;margin:0 0 24px;max-width:780px}
+    .hero-copy>p{font-size:19px;max-width:650px;color:#34435e;margin:0 0 28px}
+    .date{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--blue);font-size:18px;margin-bottom:30px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .trustline{margin-top:26px;color:var(--muted);font-size:13px}
+    .laptop{position:relative;width:min(100%,470px);aspect-ratio:1.18;margin:auto;transform:perspective(900px) rotateY(-7deg);filter:drop-shadow(0 28px 27px rgba(1,24,59,.25))}
+    .screen{position:absolute;inset:4% 8% 24%;border:12px solid #101a2c;border-bottom-width:18px;border-radius:13px;background:linear-gradient(135deg,#edf7ff 0 28%,#3389ff 28% 46%,#073b9d 46% 67%,#041c50 67%);overflow:hidden}
+    .screen:after{content:"";position:absolute;inset:0;background:linear-gradient(55deg,transparent 45%,rgba(255,255,255,.3) 46% 48%,transparent 49%)}
+    .base{position:absolute;left:0;right:0;bottom:12%;height:17%;background:linear-gradient(#b5c2d2,#596b83);clip-path:polygon(8% 0,92% 0,100% 78%,94% 100%,6% 100%,0 78%);border-radius:5px}
+    .base:after{content:"";position:absolute;left:34%;right:34%;top:12%;bottom:34%;border:1px solid #71849b;border-radius:4px}
+    .statusbar{background:var(--navy);color:#fff}
+    .status-inner{min-height:96px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+    .status-copy strong{display:block;font-size:20px}.status-copy span{color:#b8c9e7;font-size:14px}
+    .countdown{display:flex;gap:8px}.timebox{min-width:70px;text-align:center;border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 10px;background:rgba(255,255,255,.06)}
+    .timebox b{font-size:22px;display:block;line-height:1.1}.timebox small{color:#b8c9e7;font-size:11px}
+    section{padding:100px 0}.section-head{max-width:720px;margin:0 auto 52px;text-align:center}
+    h2{font-size:clamp(32px,4vw,48px);line-height:1.15;letter-spacing:-.035em;margin:0 0 14px}
+    .section-head p{color:var(--muted);margin:0}
+    .pending{display:inline-block;background:#fff4d8;color:#795200;border:1px solid #e8cf8d;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:800;white-space:nowrap}
+    .prizes{background:var(--navy);color:#fff}
+    .prizes .section-head p{color:#b8c9e7}
+    .prize-rail{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.16);border-bottom:1px solid rgba(255,255,255,.16)}
+    .prize{padding:34px 28px;min-height:280px;position:relative}.prize+.prize{border-left:1px solid rgba(255,255,255,.16)}
+    .prize-no{font-size:12px;font-weight:900;color:var(--cyan);letter-spacing:.14em}
+    .prize-icon{width:58px;height:58px;margin:35px 0 22px;display:grid;place-items:center;border:1px solid rgba(50,196,238,.6);transform:rotate(45deg);background:rgba(50,196,238,.08)}
+    .prize-icon span{transform:rotate(-45deg);font-size:25px;font-weight:900}
+    .prize h3{font-size:22px;margin:0 0 8px}.prize p{color:#b8c9e7;margin:0 0 14px;font-size:14px}
+    .prize small{color:#8fa8d0}.pool-note{text-align:center;color:#aabddd;margin:24px 0 0;font-size:13px}
+    .checker{background:#fff}
+    .checker-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:start}
+    .checker-copy h2{text-align:left}.checker-copy p{color:var(--muted)}
+    .search-panel{border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;background:#fff}
+    .search-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+    label{font-weight:800;font-size:14px;display:block;margin-bottom:8px}
+    input{width:100%;min-height:48px;border:1px solid #aebcd0;border-radius:9px;padding:10px 14px;color:var(--ink);background:#fff}
+    .empty{min-height:190px;margin-top:20px;border:1px dashed #bbc9da;border-radius:12px;background:var(--soft);display:grid;place-items:center;text-align:center;padding:28px;color:var(--muted)}
+    .empty strong{display:block;color:var(--ink);font-size:17px}.empty-symbol{width:52px;height:52px;border:3px solid #9aabc0;border-radius:50%;position:relative;margin:0 auto 16px}
+    .empty-symbol:after{content:"";position:absolute;width:22px;height:3px;background:#9aabc0;right:-16px;bottom:-7px;transform:rotate(45deg);border-radius:3px}
+    .result{align-items:start;text-align:left}.result.ok{border-style:solid;border-color:#9bd7c7;background:#f0fbf7}.result.no{border-style:solid;border-color:#e4c99c;background:#fff9ed}
+    .steps{background:var(--soft)}
+    .step-line{display:grid;grid-template-columns:repeat(4,1fr);position:relative;gap:30px}
+    .step-line:before{content:"";position:absolute;left:8%;right:8%;top:29px;border-top:2px dashed #89a9d6}
+    .step{position:relative;text-align:center}.step-num{width:60px;height:60px;border-radius:50%;background:#fff;border:2px solid var(--blue);display:grid;place-items:center;margin:0 auto 24px;color:var(--blue);font-size:20px;font-weight:900;position:relative;z-index:1}
+    .step h3{margin:0 0 7px;font-size:18px}.step p{margin:0;color:var(--muted);font-size:14px}
+    .schedule-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:0;overflow:auto;padding:10px 4px 26px}
+    .period{min-width:125px;position:relative;padding-top:34px;text-align:center}
+    .period:before{content:"";position:absolute;top:9px;left:0;right:0;border-top:2px solid #bdd0ea}
+    .period:first-child:before{left:50%}.period:last-child:before{right:50%}
+    .period:after{content:"";position:absolute;top:3px;left:calc(50% - 7px);width:14px;height:14px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px #e0ebfa}
+    .period b{display:block;color:var(--blue)}.period span{font-size:12px;color:var(--muted)}.period.final:after{background:var(--red)}.period.final b{color:var(--red)}
+    .schedule-note{background:#fff7e6;border:1px solid #efd59c;padding:15px 18px;border-radius:10px;color:#714c00;margin-top:16px}
+    .faq{background:var(--soft)}
+    .faq-list{max-width:860px;margin:auto;border-top:1px solid var(--line)}
+    details{border-bottom:1px solid var(--line);background:#fff}
+    summary{list-style:none;cursor:pointer;padding:22px 24px;font-weight:850;display:flex;justify-content:space-between;gap:20px}
+    summary::-webkit-details-marker{display:none} summary:after{content:"＋";color:var(--blue);font-size:22px;line-height:1}
+    details[open] summary:after{content:"−"}.answer{padding:0 24px 24px;color:var(--muted);max-width:740px}
+    .final-cta{background:linear-gradient(115deg,#082a70,#0757d8);color:#fff;text-align:center;position:relative;overflow:hidden}
+    .final-cta:before,.final-cta:after{content:"";position:absolute;width:380px;border-top:2px solid rgba(50,196,238,.45);top:44%;transform:rotate(20deg)}
+    .final-cta:before{left:-180px}.final-cta:after{right:-180px;transform:rotate(-20deg)}
+    .final-cta p{color:#d7e6ff;margin:0 0 26px}
+    footer{background:var(--navy-2);color:#b9c9e3;padding:42px 0 92px;font-size:13px}
+    .footer-grid{display:grid;grid-template-columns:1fr 2fr;gap:40px}.footer-links{display:flex;flex-wrap:wrap;gap:20px;justify-content:flex-end}.footer-links a:hover{color:#fff}
+    .sticky-cta{position:fixed;right:24px;bottom:24px;z-index:45;display:none}
+    dialog{border:0;border-radius:18px;width:min(680px,calc(100% - 28px));max-height:90vh;padding:0;box-shadow:0 30px 90px rgba(0,12,35,.35)}
+    dialog::backdrop{background:rgba(1,15,38,.7);backdrop-filter:blur(4px)}
+    .modal-head{padding:24px 28px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:start}
+    .modal-head h2{font-size:25px;margin:0}.demo-tag{color:#8a3300;background:#fff0e8;border:1px solid #ffc4a6;border-radius:6px;padding:3px 8px;font-weight:900;font-size:11px}
+    .close{border:0;background:transparent;font-size:28px;line-height:1;cursor:pointer;color:var(--muted)}
+    .modal-body{padding:24px 28px;overflow:auto}.demo-warning{padding:13px 15px;background:#fff7e6;border:1px solid #efd59c;border-radius:10px;color:#714c00;margin:0 0 20px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field.full{grid-column:1/-1}.field small{color:var(--muted)}
+    .modal-actions{display:flex;justify-content:flex-end;gap:10px;padding:20px 28px;border-top:1px solid var(--line)}
+    .notice{margin-top:16px;color:var(--ok);font-weight:800;display:none}
+    @media(max-width:900px){
+      .nav-links a:not(.nav-register){display:none}.hero{min-height:auto;background:linear-gradient(165deg,#fff 0 62%,#e7f2ff 62%)}
+      .hero-grid{grid-template-columns:1fr;padding:62px 0 56px;gap:45px}.hero-copy{text-align:center}.hero-copy>p{margin-left:auto;margin-right:auto}.date,.hero-actions{justify-content:center}.trustline{text-align:center}
+      .laptop{max-width:410px}.status-inner{grid-template-columns:1fr;padding:22px 0}.countdown{overflow:auto}
+      .prize-rail{grid-template-columns:1fr 1fr}.prize:nth-child(3){border-left:0}.prize:nth-child(n+3){border-top:1px solid rgba(255,255,255,.16)}
+      .checker-layout{grid-template-columns:1fr;gap:30px}.checker-copy{text-align:center}.checker-copy h2{text-align:center}
+      .step-line{grid-template-columns:1fr 1fr}.step-line:before{display:none}
+      .footer-grid{grid-template-columns:1fr}.footer-links{justify-content:flex-start}.sticky-cta{display:block}
+    }
+    @media(max-width:600px){
+      .container{width:min(calc(100% - 28px),var(--max))}.nav{height:64px}.nav .button{min-height:40px;padding:8px 13px;font-size:13px}
+      h1{font-size:41px}.hero-grid{padding-top:48px}.hero-copy>p{font-size:17px}.hero-actions{display:grid}
+      .laptop{width:94%}.status-copy{text-align:center}.countdown{justify-content:center}.timebox{min-width:60px;padding:7px}
+      section{padding:72px 0}.prize-rail{grid-template-columns:1fr}.prize+.prize{border-left:0}.prize:nth-child(n+2){border-top:1px solid rgba(255,255,255,.16)}.prize{min-height:auto}
+      .search-row{grid-template-columns:1fr}.step-line{grid-template-columns:1fr}.step{display:grid;grid-template-columns:54px 1fr;text-align:left;column-gap:16px}.step-num{width:50px;height:50px;grid-row:1/3;margin:0}.step h3{align-self:end}
+      .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.modal-head,.modal-body,.modal-actions{padding-left:18px;padding-right:18px}.modal-actions{display:grid}
+      .sticky-cta{left:14px;right:14px;bottom:12px}.sticky-cta .button{width:100%;box-shadow:0 10px 35px rgba(0,20,50,.28)}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}.button:hover{transform:none}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="mark" href="#top" aria-label="活動首頁">A × U<small>活動原型</small></a>
+      <nav class="nav-links" aria-label="主要導覽">
+        <a href="#prizes">活動好禮</a><a href="#steps">登錄方式</a><a href="#schedule">抽獎時程</a><a href="#faq">常見問題</a>
+        <button class="button coral nav-register" type="button" data-open-modal>立即登錄</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>選對新機，<br>好禮一路升級</h1>
+          <p>購買指定 ASUS 新世代 AI 筆電，完成登錄，從本期好禮一路抽到期末大獎。</p>
+          <div class="date" aria-label="活動期間 2026年8月1日至9月30日">▣ 2026.08.01—09.30</div>
+          <div class="hero-actions">
+            <a class="button primary" href="#checker">查看指定機種 <span aria-hidden="true">→</span></a>
+            <button class="button secondary" type="button" data-open-modal>立即登錄</button>
+          </div>
+          <p class="trustline">正式活動名稱與指定 SKU 待品牌核准；活動資格以完整活動辦法為準。</p>
+        </div>
+        <div class="laptop" aria-label="無品牌筆記型電腦示意圖" role="img"><div class="screen"></div><div class="base"></div></div>
+      </div>
+    </section>
+
+    <aside class="statusbar" aria-live="polite">
+      <div class="container status-inner">
+        <div class="status-copy"><strong id="campaignStatus">正在確認活動狀態</strong><span id="statusDetail">倒數資訊依台灣時間與裝置時間估算</span></div>
+        <div class="countdown" id="countdown" aria-label="活動倒數">
+          <div class="timebox"><b id="days">--</b><small>天</small></div><div class="timebox"><b id="hours">--</b><small>時</small></div><div class="timebox"><b id="minutes">--</b><small>分</small></div><div class="timebox"><b id="seconds">--</b><small>秒</small></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="prizes" id="prizes">
+      <div class="container">
+        <div class="section-head"><h2>四重好禮，一張資格一路參與</h2><p>每台符合資格並通過審核的筆電，可取得 1 張資格券；實際獎池規則以正式活動辦法為準。</p></div>
+        <div class="prize-rail">
+          <article class="prize"><div class="prize-no">01 / 8 期</div><div class="prize-icon"><span>↗</span></div><h3>當期抽</h3><p>10,000mAh 行動電源，共 8 名</p><small>品牌／型號／市價</small> <span class="pending">待主辦單位核定</span></article>
+          <article class="prize"><div class="prize-no">02 / 4 組</div><div class="prize-icon"><span>＋</span></div><h3>雙期抽</h3><p>1TB 外接硬碟，共 4 名</p><small>品牌／型號／市價</small> <span class="pending">待主辦單位核定</span></article>
+          <article class="prize"><div class="prize-no">03 / 2 次</div><div class="prize-icon"><span>月</span></div><h3>月抽</h3><p>16GB DDR5 筆電記憶體，共 2 名</p><small>相容性／型號／市價</small> <span class="pending">待主辦單位核定</span></article>
+          <article class="prize"><div class="prize-no">04 / 2 名</div><div class="prize-icon"><span>★</span></div><h3>期末大抽</h3><p>27 吋電競螢幕、Vivobook 15 各 1 名</p><small>完整型號／規格／市價</small> <span class="pending">待主辦單位核定</span></article>
+        </div>
+        <p class="pool-note">建議規則：資格券進入所屬當期、雙期、月份與期末獎池；同層與跨層中獎限制待正式核定。</p>
+      </div>
+    </section>
+
+    <section class="checker" id="checker">
+      <div class="container checker-layout">
+        <div class="checker-copy"><h2>先查型號，再放心參加</h2><p>輸入完整型號，確認是否適用活動。這個原型只使用本機 Demo 清單，不代表正式核准 SKU。</p><span class="pending">正式 SKU 待主辦單位核定</span></div>
+        <div class="search-panel">
+          <form id="modelForm" role="search">
+            <label for="modelInput">產品完整型號</label>
+            <div class="search-row"><input id="modelInput" autocomplete="off" placeholder="試輸入 DEMO-A14 或 DEMO-B15" aria-describedby="modelHelp"><button class="button primary" type="submit">查詢</button></div>
+            <small id="modelHelp">Demo 可辨識：DEMO-A14、DEMO-B15、DEMO-C17。</small>
+          </form>
+          <div class="empty" id="modelResult" aria-live="polite"><div><div class="empty-symbol" aria-hidden="true"></div><strong>尚未查詢型號</strong>輸入型號後，這裡會顯示 Demo 資格結果。</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps" id="steps">
+      <div class="container">
+        <div class="section-head"><h2>登錄 4 步驟，進度清楚掌握</h2><p>先確認型號，再準備發票與產品序號。Demo 表單不會傳送或儲存任何資料。</p></div>
+        <div class="step-line">
+          <article class="step"><div class="step-num">1</div><h3>確認指定機種</h3><p>用完整料號查詢活動資格。</p></article>
+          <article class="step"><div class="step-num">2</div><h3>準備購買資料</h3><p>備妥發票、購買資訊與產品序號。</p></article>
+          <article class="step"><div class="step-num">3</div><h3>填寫線上登錄</h3><p>每台產品須依獨立序號完成登錄。</p></article>
+          <article class="step"><div class="step-num">4</div><h3>查詢審核進度</h3><p>保存活動 ID，留意補件與開獎通知。</p></article>
+        </div>
+        <div style="text-align:center;margin-top:42px"><button class="button primary" type="button" data-open-modal>開啟登錄 Demo</button></div>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <div class="container">
+        <div class="section-head"><h2>八期活動時程</h2><p>登錄歸屬以系統完成送出時間為準；每日截止時間為台灣時間 23:59。</p></div>
+        <div class="schedule-grid" aria-label="活動八期時程">
+          <div class="period"><b>第 1 期</b><span>8/1—8/9<br>建議 8/10 抽</span></div>
+          <div class="period"><b>第 2 期</b><span>8/10—8/16<br>建議 8/17 抽</span></div>
+          <div class="period"><b>第 3 期</b><span>8/17—8/23<br>建議 8/24 抽</span></div>
+          <div class="period"><b>第 4 期</b><span>8/24—8/30<br>建議 8/31 抽</span></div>
+          <div class="period"><b>第 5 期</b><span>8/31—9/6<br>建議 9/7 抽</span></div>
+          <div class="period"><b>第 6 期</b><span>9/7—9/13<br>建議 9/14 抽</span></div>
+          <div class="period"><b>第 7 期</b><span>9/14—9/20<br>建議 9/21 抽</span></div>
+          <div class="period final"><b>第 8 期</b><span>9/21—9/30<br>期末大抽</span></div>
+        </div>
+        <div class="schedule-note"><strong>第 8 期抽獎日：</strong>建議 2026/10/5，以保留資料審核時間；原始提案為 10/1。<span class="pending">待主辦單位核定</span></div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="container">
+        <div class="section-head"><h2>常見問題</h2><p>以下為原型短版說明；正式參加前請閱讀完整活動辦法。</p></div>
+        <div class="faq-list">
+          <details><summary>哪些產品可以參加？</summary><div class="answer">僅限正式活動頁指定機種清單中的完整 ASUS 型號／料號。目前清單待主辦單位與品牌核定。</div></details>
+          <details><summary>一個人可以登錄多台嗎？</summary><div class="answer">建議規則為可以；每台均須有不同且有效的產品序號，並與購買憑證上的實際數量相符。</div></details>
+          <details><summary>一張資格券可以參加哪些抽獎？</summary><div class="answer">策略建議可進入所屬當期、雙期、月份與期末獎池；同層及跨層中獎限制仍待正式核定。</div></details>
+          <details><summary>退貨後還能參加嗎？</summary><div class="answer">不能。退貨、取消交易或發票作廢後，該筆參加與得獎資格將依正式活動辦法取消。</div></details>
+          <details><summary>我的個人資料會用在哪裡？</summary><div class="answer">活動必要資料僅用於資格審核、聯絡、寄獎、稅務與爭議處理。行銷同意須分開且不得預勾；本原型不收集資料。</div></details>
+          <details><summary>中獎需要繳稅嗎？</summary><div class="answer">中獎所得須依中華民國相關稅法辦理，實際扣繳、憑單與文件由主辦方財會依發獎時法令通知。</div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container"><h2>準備好發票與產品序號了嗎？</h2><p>先查指定型號，再用 4 步完成登錄。</p><button class="button coral" type="button" data-open-modal>立即登錄 Demo <span aria-hidden="true">→</span></button></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div><div class="mark" style="color:#fff">A × U</div><p>指定 ASUS 新世代 AI 筆電登錄抽獎｜互動原型</p></div>
+      <div class="footer-links"><a href="#checker">指定機種</a><a href="#schedule">抽獎時程</a><a href="#faq">常見問題</a><a href="#top">回到頂端</a></div>
+    </div>
+  </footer>
+
+  <div class="sticky-cta"><button class="button coral" type="button" data-open-modal>立即登錄 Demo</button></div>
+
+  <dialog id="registerDialog" aria-labelledby="dialogTitle">
+    <form id="demoRegister">
+      <div class="modal-head"><div><span class="demo-tag">DEMO ONLY</span><h2 id="dialogTitle">購機登錄原型</h2></div><button class="close" type="button" data-close-modal aria-label="關閉對話框">×</button></div>
+      <div class="modal-body">
+        <p class="demo-warning"><strong>這是互動 Demo：</strong>不會傳送、上傳或儲存任何資料。請勿輸入真實姓名、電話、發票或產品序號。</p>
+        <div class="form-grid">
+          <div class="field"><label for="demoName">姓名（請填 Demo）</label><input id="demoName" required placeholder="例如：測試使用者"></div>
+          <div class="field"><label for="demoPhone">手機（請填 Demo）</label><input id="demoPhone" required inputmode="numeric" placeholder="例如：0900000000"></div>
+          <div class="field"><label for="demoModel">產品型號</label><input id="demoModel" required placeholder="DEMO-A14"></div>
+          <div class="field"><label for="demoSerial">產品序號（請填 Demo）</label><input id="demoSerial" required placeholder="DEMO-SERIAL-001"></div>
+          <div class="field full"><label for="demoInvoice">購買憑證</label><input id="demoInvoice" type="text" disabled value="Demo 不提供檔案上傳"><small>正式版本須提供安全上傳、格式限制與遮蔽示例。</small></div>
+        </div>
+        <p class="notice" id="demoNotice" role="status">Demo 驗證完成。沒有任何資料被傳送或儲存。</p>
+      </div>
+      <div class="modal-actions"><button class="button secondary" type="button" data-close-modal>取消</button><button class="button primary" type="submit">模擬送出（不傳資料）</button></div>
+    </form>
+  </dialog>
+
+  <script>
+    (() => {
+      "use strict";
+      const campaignStart = new Date("2026-08-01T00:00:00+08:00");
+      const campaignEnd = new Date("2026-09-30T23:59:59+08:00");
+      const status = document.querySelector("#campaignStatus");
+      const detail = document.querySelector("#statusDetail");
+      const timer = document.querySelector("#countdown");
+      const units = ["days","hours","minutes","seconds"].map(id => document.getElementById(id));
+      const pad = n => String(n).padStart(2,"0");
+      function updateCountdown(){
+        const now = new Date();
+        let target, title;
+        if(now < campaignStart){target=campaignStart;title="活動尚未開始";}
+        else if(now <= campaignEnd){target=campaignEnd;title="活動進行中";}
+        else {status.textContent="活動已結束";detail.textContent="得獎公告與領獎時程待主辦單位核定";timer.hidden=true;return;}
+        const diff=Math.max(0,target-now), d=Math.floor(diff/86400000), h=Math.floor(diff/3600000)%24, m=Math.floor(diff/60000)%60, s=Math.floor(diff/1000)%60;
+        status.textContent=title;detail.textContent=now<campaignStart?"距離活動開始":"距離最後登錄截止";
+        [d,h,m,s].forEach((v,i)=>units[i].textContent=pad(v));
+      }
+      updateCountdown(); setInterval(updateCountdown,1000);
+
+      const approvedDemo = {
+        "DEMO-A14":"Demo 14 吋機種｜贈品內容待核定",
+        "DEMO-B15":"Demo 15 吋機種｜贈品內容待核定",
+        "DEMO-C17":"Demo 17 吋機種｜贈品內容待核定"
+      };
+      const modelForm=document.querySelector("#modelForm"), modelInput=document.querySelector("#modelInput"), result=document.querySelector("#modelResult");
+      modelForm.addEventListener("submit",e=>{
+        e.preventDefault(); const key=modelInput.value.trim().toUpperCase();
+        if(!key){result.className="empty";result.innerHTML="<div><strong>請先輸入完整型號</strong>可試用 DEMO-A14、DEMO-B15 或 DEMO-C17。</div>";return;}
+        if(approvedDemo[key]){
+          result.className="empty result ok";result.innerHTML=`<div><strong>Demo：符合示範清單</strong>${approvedDemo[key]}<br><span class="pending">不代表正式活動資格</span></div>`;
+        }else{
+          result.className="empty result no";result.innerHTML="<div><strong>Demo：目前未在示範清單</strong>請檢查輸入，正式資格須以主辦單位核准 SKU 為準。</div>";
+        }
+      });
+
+      const dialog=document.querySelector("#registerDialog"), openers=document.querySelectorAll("[data-open-modal]"), closers=document.querySelectorAll("[data-close-modal]"), demoForm=document.querySelector("#demoRegister"), notice=document.querySelector("#demoNotice");
+      openers.forEach(btn=>btn.addEventListener("click",()=>{notice.style.display="none";dialog.showModal();document.body.classList.add("modal-open");}));
+      function closeDialog(){dialog.close();document.body.classList.remove("modal-open");}
+      closers.forEach(btn=>btn.addEventListener("click",closeDialog));
+      dialog.addEventListener("click",e=>{if(e.target===dialog)closeDialog();});
+      dialog.addEventListener("close",()=>document.body.classList.remove("modal-open"));
+      demoForm.addEventListener("submit",e=>{e.preventDefault();notice.style.display="block";});
+    })();
+  </script>
+</body>
+</html>
